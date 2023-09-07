@@ -1,7 +1,7 @@
 {
 	"name": "sfcc-ocapi",
-	"version": "1.0.0",
-	"description": "Salesfoce Open Commerce REST API Client",
+	"version": "1.0.1",
+	"description": "Request client for Salesforce OCAPI (Open Commerce Application Programming Interface)",
 	"main": "index.js",
 	"scripts": {},
 	"keywords": [
