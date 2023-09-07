@@ -123,26 +123,31 @@ module.exports = async function*(search_response) { // Generator function to be 
             const {curr_count} = getPagination(search_response)
             console.log(`Fetching ${curr_count || "more"} records from paginated search query '${search_response.next}'...`)
             search_response = await request.fetch(
-                "GET",
-                search_response.next,
-                search_response._request_params?.payload,
-                undefined, // `search_response.next` already contains the query string!
-                search_response._request_params?.headers,
-                search_response._request_params?.environment
+                "GET", // request method
+                search_response.next, // request url
+                search_response._request_params?.payload, // request body payload
+                undefined, // request query parameters (`search_response.next` already contains the query string)
+                search_response._request_params?.headers, // request headers
+                search_response._request_params?.environment // environment to be used for authentication credentials
             )
         } else {
             const {nxt_count, nxt_start} = getPagination(search_response)
             console.log(`Fetching ${nxt_count} records from page ${curr_page + 1} of ${num_pages}, continuing at query index ${nxt_start}...`)
             search_response = await request.fetch(
-                search_response._request_params?.method,
-                search_response._request_params?.url,
-                merge(
-                    search_response._request_params?.payload,
-                    {start: nxt_start}
+                search_response._request_params?.method, // request method
+                search_response._request_params?.url, // request url
+                ( // request body payload
+                    search_response._request_params?.payload?.start || search_response._request_params?.payload?.count
+                    ? merge(search_response._request_params?.payload, {start: nxt_start})
+                    : {}
                 ),
-                search_response._request_params?.query,
-                search_response._request_params?.headers,
-                search_response._request_params?.environment
+                ( // request query parameters
+                    search_response._request_params?.query?.start || search_response._request_params?.query?.count
+                    ? merge(search_response._request_params?.query, {start: nxt_start})
+                    : {}
+                ),
+                search_response._request_params?.headers, // request headers
+                search_response._request_params?.environment // environment to be used for authentication credentials
             )
         }
 
