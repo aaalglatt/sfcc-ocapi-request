@@ -85,7 +85,7 @@ const sleep = function(duration/*seconds*/) {
     })
 }
 
-module.exports = async function*(search_response) { // Generator function to be used with a await-for-loop, e.g.: for await(const promotions of getActivePromotions(site_id)) {...}
+module.exports = async /*generator*/ function*(search_response) { // to be used with loops `for await(const records of asyncSfccOcapiCall(args)) {/*implementation*/}`
     if(isPromise(search_response)) {
         console.log(`Began fetching records from paginated search query...`)
         search_response = await search_response
