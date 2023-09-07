@@ -50,12 +50,12 @@ const getPagination = function(response) {
         || response.hits?.length
         || response.data?.length
         || 1, // default
-        response.total - (response.next?.start || response.start) // clamp
+        response.total - (response.next?.start || response.start) // max
     )
     const nxt_start = Math.min(
         response.next?.start
         || response.start + nxt_count,
-        response.total - nxt_count // clamp
+        response.total - nxt_count // max
     )
     return {
         curr_count,
