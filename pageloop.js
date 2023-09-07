@@ -139,12 +139,12 @@ module.exports = async /*generator*/ function*(search_response) { // to be used 
                 ( // request body payload
                     search_response._request_params?.payload?.start || search_response._request_params?.payload?.count
                     ? merge(search_response._request_params?.payload, {start: nxt_start})
-                    : {}
+                    : search_response._request_params?.payload
                 ),
                 ( // request query parameters
                     search_response._request_params?.query?.start || search_response._request_params?.query?.count
                     ? merge(search_response._request_params?.query, {start: nxt_start})
-                    : {}
+                    : search_response._request_params?.query
                 ),
                 search_response._request_params?.headers, // request headers
                 search_response._request_params?.environment // environment to be used for authentication credentials
