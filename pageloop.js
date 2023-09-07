@@ -79,9 +79,9 @@ const isPaginated = function(response) {
     )
 }
 
-const sleep = function(seconds) {
+const sleep = function(duration/*seconds*/) {
     return new Promise(resolve => {
-        setTimeout(resolve, seconds * 1000)
+        setTimeout(resolve, duration * 1000)
     })
 }
 
