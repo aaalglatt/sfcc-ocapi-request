@@ -1,0 +1,36 @@
+{
+	"name": "sfcc-ocapi",
+	"version": "1.0.0",
+	"description": "Salesfoce Open Commerce REST API Client",
+	"main": "index.js",
+	"scripts": {},
+	"keywords": [
+		"salesforce",
+		"sf",
+		"commerce",
+		"commerce",
+		"cloud",
+		"salesforce",
+		"commerce",
+		"cloud",
+		"sfcc",
+		"api",
+		"ocapi",
+		"open",
+		"commerce",
+		"api",
+		"sfcc",
+		"ocapi",
+		"client",
+		"http",
+		"rest",
+		"request"
+	],
+	"author": "geekhunger",
+	"license": "ISC",
+	"dependencies": {
+		"merge-anything": "^5.1.7",
+		"needle": "^3.2.0",
+		"query-string-for-all": "^7.1.1"
+	}
+}
