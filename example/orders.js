@@ -1,5 +1,4 @@
-const request = require("../api")
-const pageloop = require("../pageloop")
+const {request, pageloop} = require("../public")
 const {DEBUG, ACCESS_KEYS, ENVIRONMENT, SITE_ID} = require("./private-settings")
 
 const getOrders = async function( // @environment and @site_id are mandatory, every other argument is optional

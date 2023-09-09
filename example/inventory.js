@@ -1,4 +1,4 @@
-const request = require("../api")
+const {request} = require("../public")
 const {DEBUG, ACCESS_KEYS, ENVIRONMENT} = require("./private-settings")
 
 const findProductInventory = function(product, inventory = "inventory-DEAT", environment = "staging") {

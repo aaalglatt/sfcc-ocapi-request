@@ -1,5 +1,4 @@
-const request = require("../api")
-const pageloop = require("../pageloop")
+const {request, pageloop} = require("../public")
 const {DEBUG, ACCESS_KEYS, ENVIRONMENT, CUSTOMER_LIST} = require("./private-settings")
 
 const is_customer_id = value => typeof value === "string" && value.match(/\p{L}+/gui) // eg. bcsSjJvIqOajTOsAX62H7Zo3xA
