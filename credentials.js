@@ -32,6 +32,16 @@ credentials.isSupportedEnvironment = function(identifier) {
     return !!credentials.getSupportedEnvironment(identifier)
 }
 
+credentials.removeSupportedEnvironment = function(identifier) {
+    const environment = credentials.getSupportedEnvironment(identifier)
+    if(!!environment) {
+        const index = credentials.SUPPORTED_ENVIRONTMENTS.indexOf(environment)
+        if(index > -1) {
+            credentials.SUPPORTED_ENVIRONTMENTS.splice(index, 1)
+        }
+    }
+}
+
 credentials.addAccessKey = credentials.add = function(username, password, aliases, environments, agent, origin) {
     if(typeof username !== "string" || username.length < 1 || typeof password !== "string" || password.length < 1) {
         throw new TypeError(`Access key ${JSON.stringify({username, password})} is malformed! Expecting strings.`)
