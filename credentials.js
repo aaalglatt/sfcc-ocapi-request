@@ -15,6 +15,9 @@ credentials.addSupportedEnvironment = function(identifier) {
 }
 
 credentials.getSupportedEnvironment = function(identifier) {
+    if(typeof identifier !== "string" && identifier.length < 1) {
+        throw new TypeError(`Malformed environment identifier ${JSON.stringify(identifier)}!`)
+    }
     const environments = credentials.SUPPORTED_ENVIRONTMENTS.filter(function(environment) {
         return environment.match(new RegExp("^" + identifier, "i"))
     })
