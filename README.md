@@ -1,5 +1,7 @@
 # Salesforce OCAPI request client
 
+> I'm already working on the README...
+
 ## Installation
 
 Run `npm i sfcc-ocapi-request` to install this NPM package.
