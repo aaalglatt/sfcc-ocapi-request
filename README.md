@@ -4,9 +4,38 @@
 
 Run `npm i sfcc-ocapi-request` to install this NPM package.
 
-## Configuration
+## Imports
 
-I like to keep Salesforce connection credentials and miscellaneous API settings inside of a separate file, for example `./sfcc-ocapi-settings.js`
+```js
+const {request, pageloop, credentials} = require("sfcc-ocapi-request")
+const {fetch} = request
+const {ACCESS_KEYS, addAccessKey, SUPPORTED_ENVIRONTMENTS, isSupportedEnvironment, getSupportedEnvironment, addSupportedEnvironment, removeSupportedEnvironment} = credentials
+```
+
+The `request` object contains functions to make HTTP and SFCC OCAPI calls. - For example, `request.fetch()` is basically just a wrapper around [`needle`](https://www.npmjs.com/package/needle) and can be used for generic REST fetches. On the other hand, you can use `request[ENVIRONMENT].data()` and `request[ENVIRONMENT].shop()` to call DATA or SHOP Commerce APIs. - (You need to replace the `ENVIRONMENT` placeholder by a string like `"staging"`.) - For example: `request.development.data()` or `request.production.shop()`.
+
+The `pageloop()` function returns a generator function which can be used with `for`-loops. For example:
+
+```js
+const query = request.staging.shop("GET", "/customer_lists/CustomerListName/customers/0123456789", "-") // organization scope
+
+for await(const response of pageloop(query)) {
+	console.log(response)
+}
+```
+
+The `credentials` object contains some helper functions for managing the Salesfoce Commerce environments and their corresponding access keys.
+
+
+## Credentials
+
+`credentials.ACCESS_KEYS` is a structured object which holds access keys to your Salesforce Commerce Cloud and its APIs. Access Keys are things like a Business Manager Users or an API Client. Typically, you will have at least one API Client and at least one Business Manager User.
+
+(This package supports a simple and an advances authentication method. The simple one uses only API client credentials like its ID and password. The downside of this authorization, is that it can only make requests to the `shop` OCAPIs. The advanced authentication method uses a combination of Business Manager credentials, plus the client ID and password. The advanced authentication method can use both API endpoints (`shop` and `data`) at the same time, but you will need to have both, a BM User + an API Client.)
+
+API clients and Business Manager users can be created inside the Salesforce Account Manager.
+
+I like to keep my Salesforce connection credentials and miscellaneous API settings inside of a separate file, for example `./sfcc-ocapi-settings.js`
 
 ```js
 const {credentials} = require("sfcc-ocapi-request")
@@ -44,16 +73,27 @@ addAccessKey( // Business Manager User PRODUCTION
 )
 ```
 
-The above configuration example shows how I added three credentials: one API client (same on any environment), one Business Manager user for the *staging* environment and one Business Manager user for the *production* environment.
+The above configuration example shows how I added three credentials: an API client (same on any environment), one Business Manager user for the *staging* environment and another Business Manager user for the *production* environment. - Here's a short description of function arguments:
 
-The *API client* is a requirement and it *must* have at least one alias, named `"apiclient"`. You may have one API client per Salesforce Commerce environment, then. You may have only one API Client for all of your environments of Salesforce Commerce, or  - it's up to you.
+```js
+credentials.addAccessKey(
+	"user.name@company.at", // username (string, commonly an email address)
+	"Pa$Sword", // password (string, hash of characters, digits and special characters)
+	"bmuser", // alias (or multiple: ["bmuser", "api_client", "product_manager_user"])
+	"staging" // environment (or multiple: ["development", "staging", "production"])
+)
+```
 
 The *Business Manager user* is also a requirement and must be aliased with `"bmuser"`.
 
-The aliases function argument can be a string or an array of strings. Aliases are used to access credentials within an environment by these custom names, for example `ACCESS_KEYS.production.shop_manager`. You can also have more than one alias referencing the exact same access key definition.
+The *API client* is a requirement and it *must* have at least one alias, named `"apiclient"`. You may have one API client per Salesforce Commerce environment, or you may also have a single API Client for all of your Salesforce Commerce environments. It's up to you.
 
+(I personally do not use aliases for any specific tasks, but they were initially planned to be used to reference credentials by a custom name, like `ACCESS_KEYS.staging.product_manager_bmuser`. This way I could perform certain OCAPI tasks with one user and others with another user. But this functionality has never been thought through or used. Only `"apiclient"` and `"bmuser"` are used inside of `client-grant.js` and `user-grant.js` for request authorization, which is the reason that you need at least one API client and at least one Business Manager user with the mentioned aliases.)
 
-The variables `SITE_ID`, `CUSTOMER_LIST` and `DEBUG` which are used inside the `./example/` project files.
+The aliases argument can be a string or an array of strings. Aliases are used to access credentials within an environment by these custom names, for example `ACCESS_KEYS.production.shop_manager`. You can also have more than one alias referencing the exact same access key definition.
+
+The variables `SITE_ID`, `CUSTOMER_LIST` and `DEBUG` which are custom properties that are used inside of the `./example/` project files.
+
 The `ENVIRONMENT` variable is used to structure the Salesforce credentials.
 
 After the credentials setup, shown above, the `ACCESS_KEY` namespace could look something like this:
@@ -106,6 +146,10 @@ After the credentials setup, shown above, the `ACCESS_KEY` namespace could look 
   }
 }
 ```
+
+## Environments
+
+`credentials.SUPPORTED_ENVIRONMENTS` is a list of Salesforce Commerce environments that your company has. Typically, you will have `"development"`, `"staging"`, `"production"` and maybe a couple of sandboxes, like `"sandbox-008"`. If `SUPPORTED_ENVIRONMENTS` is missing a (supported) identifier, you can use the fallowing call to register this new environment, e.g. `credentials.addSupportedEnvironment("sandbox-008")`.
 
 ## API request
 
