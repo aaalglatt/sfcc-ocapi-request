@@ -8,7 +8,7 @@ module.exports = {
     ACCESS_KEYS
 }
 
-addEnvironmentDomain("production", "web.site.at")
+addEnvironmentDomain("web.site.at", "production")
 
 addAccessKey( // API Client (same on for all environments)
     "abcdefghijklmnopqrstuvwxyz0987654321", // username
