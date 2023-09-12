@@ -1,3 +1,5 @@
+// This is a demo configuration file. Adjust it to your needs.
+
 const {addAccessKey, ACCESS_KEYS} = require("../credentials")
 
 module.exports = {

@@ -1,5 +1,6 @@
 const {request, pageloop} = require("../public")
-const {DEBUG, ACCESS_KEYS, ENVIRONMENT, CUSTOMER_LIST} = require("./private-settings")
+//const {DEBUG, ACCESS_KEYS, ENVIRONMENT, CUSTOMER_LIST} = require("./settings")
+const {DEBUG, ACCESS_KEYS, ENVIRONMENT, CUSTOMER_LIST} = require("./private-settings") // NOTE: Use the line above, I just have my own private ones which are obviously gitignore'd
 
 const is_customer_id = value => typeof value === "string" && value.match(/\p{L}+/gui) // eg. bcsSjJvIqOajTOsAX62H7Zo3xA
 const is_customer_no = value => typeof value === "string" && value.match(/^\d+$/g) // eg. 0050891916

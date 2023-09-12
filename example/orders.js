@@ -1,5 +1,6 @@
 const {request, pageloop} = require("../public")
-const {DEBUG, ACCESS_KEYS, ENVIRONMENT, SITE_ID} = require("./private-settings")
+//const {DEBUG, ACCESS_KEYS, ENVIRONMENT, SITE_ID} = require("./settings")
+const {DEBUG, ACCESS_KEYS, ENVIRONMENT, SITE_ID} = require("./private-settings") // NOTE: Use the line above, I just have my own private ones which are obviously gitignore'd
 
 const getOrders = async function( // @environment and @site_id are mandatory, every other argument is optional
     environment,

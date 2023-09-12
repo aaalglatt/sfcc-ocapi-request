@@ -1,5 +1,6 @@
 const {request} = require("../public")
-const {DEBUG, ACCESS_KEYS, ENVIRONMENT} = require("./private-settings")
+//const {DEBUG, ACCESS_KEYS, ENVIRONMENT} = require("./settings")
+const {DEBUG, ACCESS_KEYS, ENVIRONMENT} = require("./private-settings") // NOTE: Use the line above, I just have my own private ones which are obviously gitignore'd
 
 const findProductInventory = function(product, inventory = "inventory-DEAT", environment = "staging") {
     return request[environment].data(
