@@ -5,10 +5,10 @@
 	"main": "public.js",
 	"repository": {
         "type": "git",
-        "url": "git+https://github.com/aaalglatt/sfcc-ocapi-request.git"
+        "url": "git+https://github.com/geekhunger/sfcc-ocapi-request.git"
     },
     "bugs": {
-        "url": "https://github.com/aaalglatt/sfcc-ocapi-request/issues"
+        "url": "https://github.com/geekhunger/sfcc-ocapi-request/issues"
     },
 	"scripts": {
 	},

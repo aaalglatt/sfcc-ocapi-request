@@ -2,7 +2,7 @@
 
 > I'm already fixing bugs and working on the README...
 
-For deeper understanding [inspect the source code at GitHub](https://github.com/aaalglatt/sfcc-ocapi-request) and [look through the examples](https://github.com/aaalglatt/sfcc-ocapi-request/tree/main/example).
+For deeper understanding [inspect the source code at GitHub](https://github.com/geekhunger/sfcc-ocapi-request) and [look through the examples](https://github.com/geekhunger/sfcc-ocapi-request/tree/main/example).
 
 ## Installation
 
@@ -117,7 +117,7 @@ addEnvironmentDomain("stg.kneipp.de", "staging")
 addEnvironmentDomain("kneipp.net", "production")
 ```
 
-These URLs are required for OCAPI requests. The reason is that the `request[environment][shop|data](...arguments)` functions are basically just convenience wrappers around `request.fetch()`. - `request.fetch` can work with URLs just fine, but `request.[environment][shop|data]` has different function arguments, specifically designed to comfortably work with SFCC OCAPI, and its arguments like `environment`, `site_id`, `api_realm`, `api_version`, and `path` are then concanated into a fully qualitying OCAPI base-url like `https://DOMAIN/s/SITE_ID/dw/API_REALM/API_VERSION/PATH`. - ([See this code](https://github.com/aaalglatt/sfcc-ocapi-request/blob/main/api.js#L76) and [refer to this helper](https://github.com/aaalglatt/sfcc-ocapi-request/blob/main/helper.js#L11) for further implementation details.)
+These URLs are required for OCAPI requests. The reason is that the `request[environment][shop|data](...arguments)` functions are basically just convenience wrappers around `request.fetch()`. - `request.fetch` can work with URLs just fine, but `request.[environment][shop|data]` has different function arguments, specifically designed to comfortably work with SFCC OCAPI, and its arguments like `environment`, `site_id`, `api_realm`, `api_version`, and `path` are then concanated into a fully qualitying OCAPI base-url like `https://DOMAIN/s/SITE_ID/dw/API_REALM/API_VERSION/PATH`. - ([See this code](https://github.com/geekhunger/sfcc-ocapi-request/blob/main/api.js#L76) and [refer to this helper](https://github.com/geekhunger/sfcc-ocapi-request/blob/main/helper.js#L11) for further implementation details.)
 
 ```js
 addEnvironmentDomain("dev.kneipp.de", "development") // If I would add this domain for "staging" environment
@@ -160,7 +160,7 @@ After the credentials setup, described above, the `ACCESS_KEY` namespace could l
 
 The request object contains a generic method for making HTTP calls: `request.fetch(method, url, payload, query, headers, environment, attempts = 3)`
 
-This is basically a wrapper around `needle`. It always returns a Promise that is resolved on HTTP statuses between 200 and 299 - it rejects others. The call compiles and parses JSON requests and responses automatically (with proper headers and payload), unless you add custom `Content-Type` or/and `Accept` headers. [(You can find the source here.)](https://github.com/aaalglatt/sfcc-ocapi-request/blob/main/rest.js#L34)
+This is basically a wrapper around `needle`. It always returns a Promise that is resolved on HTTP statuses between 200 and 299 - it rejects others. The call compiles and parses JSON requests and responses automatically (with proper headers and payload), unless you add custom `Content-Type` or/and `Accept` headers. [(You can find the source here.)](https://github.com/geekhunger/sfcc-ocapi-request/blob/main/rest.js#L34)
 
 ```js
 let response = await request( // http request example taken from `./client-grant.js`
@@ -181,7 +181,7 @@ let response = await request( // http request example taken from `./client-grant
 
 The request object also contains shortcut functions tailored specifically to make HTTP calls to the Salesforce Open Commerce Application Programming Interface (OCAPI): `request[environment][data|shop](method, url, site_id, api_version, payload, query, headers, attempts = 3)`
 
-Basically, there is a wrapper around the `request.fetch()` method for every environment defined in `credentials.SUPPORTED_ENVIRONMENTS` and for every OCAPI realm (data, shop). This is done for  convenience. For example, you can call `request.staging.data()` or `request.production.shop()`, in which case you no longer need to pass the environment to the function arguments anymore. You get additional arguments instead, like `site_id`, which are used to automatically compile the correct OCAPI url, like `https://yourdomain.net/s/yourSiteID/dw/shop/v21_6/orders/yourOrderNumber`.  [(You can find the implementation details here.)](https://github.com/aaalglatt/sfcc-ocapi-request/blob/main/api.js#L70)
+Basically, there is a wrapper around the `request.fetch()` method for every environment defined in `credentials.SUPPORTED_ENVIRONMENTS` and for every OCAPI realm (data, shop). This is done for  convenience. For example, you can call `request.staging.data()` or `request.production.shop()`, in which case you no longer need to pass the environment to the function arguments anymore. You get additional arguments instead, like `site_id`, which are used to automatically compile the correct OCAPI url, like `https://yourdomain.net/s/yourSiteID/dw/shop/v21_6/orders/yourOrderNumber`.  [(You can find the implementation details here.)](https://github.com/geekhunger/sfcc-ocapi-request/blob/main/api.js#L70)
 
 ```js
 return request[environment].data( // ocapi request example taken from `./example/inventory.js`
