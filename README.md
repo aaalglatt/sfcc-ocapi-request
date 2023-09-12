@@ -54,37 +54,37 @@ const {credentials} = require("sfcc-ocapi-request")
 const {ACCESS_KEYS, addAccessKey} = credentials
 
 module.exports = {
-	SITE_ID: "businessManagerSiteName",
-	CUSTOMER_LIST: "businessManagerCustomerListName",
-	ENVIRONMENT: "environmentName", // for example one of ["development", "staging", "production"]
+	SITE_ID: "kneippDE",
+	CUSTOMER_LIST: "kneippDE",
+	ENVIRONMENT: "staging", // for example one of ["development", "staging", "production"]
 	DEBUG: false, // number of records or false
 	ACCESS_KEYS
 }
 
 // Domains of your Salesforce Commerce instances
-addEnvironmentDomain("dev.domain.net", "development")
-addEnvironmentDomain("stg.domain.net", "staging")
-addEnvironmentDomain("domain.net", "production")
+addEnvironmentDomain("dev.kneipp.de", "development")
+addEnvironmentDomain("stg.kneipp.de", "staging")
+addEnvironmentDomain("kneipp.de", "production")
 
 credentials.addAccessKey( // API Client (same on for all environments)
-	"abcdefghijklmnopqrstuvwxyz0987654321", // username
-	"ClieNtPa$Sword", // password
+	"XXXXXXXXXXXXXXX", // username
+	"XXXXXXXXXXXXXXX", // password
 	"apiclient", // aliases or tags to use as shortcut referecne when fetching this access key from `ACCESS_KEYS[environment][alias]`
 	null, // make credentials available for all supported environments
-	"OCAPI Test Client", // request agent name
-	"https://whitelisted.domain-origin.net" // request agent origin url
+	"Kneipp Microservices Client", // request agent name
+	"https://microservices.kneipp.de" // request agent origin url
 )
 
 credentials.addAccessKey( // Business Manager User ("staging" environment)
-	"user.name@company.at", // username
-	"Pa$Sword", // password
+	"microservices@kneipp.de", // username
+	"XXXXXXXXXXXXXXX", // password
 	"bmuser", // alias (or multiple: ["bmuser", "api_client", ...])
 	"staging" // environment (or multiple: ["development", "staging", ...])
 )
 
-addAccessKey( // Business Manager User PRODUCTION
-	"user.name@company.at",
-	"an0THErP@$Sword",
+addAccessKey( // Business Manager User ("production" environment)
+	"microservices.kneipp.de",
+	"XXXXXXXXXXXXXXX",
 	"bmuser",
 	"production"
 )
@@ -94,8 +94,8 @@ The above configuration example shows how I added three credentials: an API clie
 
 ```js
 credentials.addAccessKey(
-	"user.name@company.at", // username (string, commonly an email address)
-	"Pa$Sword", // password (string, hash of characters, digits and special characters)
+	"microservices@kneipp.de", // username (string, commonly an email address)
+	"XXXXXXXXXXXXXXX", // password (string, hash of characters, digits and special characters)
 	"bmuser", // alias (or multiple: ["bmuser", "api_client", "product_manager_user"])
 	"staging" // environment (or multiple: ["development", "staging", "production"])
 )
@@ -112,9 +112,9 @@ The aliases argument can be a string or an array of strings. Aliases are used to
 The configuration also shows how I added three domains for my Salesforce Commerce environments (development, staging and production).
 
 ```js
-addEnvironmentDomain("dev.domain.net", "development")
-addEnvironmentDomain("stg.domain.net", "staging")
-addEnvironmentDomain("domain.net", "production")
+addEnvironmentDomain("dev.kneipp.de", "development")
+addEnvironmentDomain("stg.kneipp.de", "staging")
+addEnvironmentDomain("kneipp.net", "production")
 ```
 
 These URLs are required for OCAPI requests. The reason is that the `request[environment][shop|data](...arguments)` functions are basically just convenience wrappers around `request.fetch()`. - `request.fetch` can work with URLs just fine, but `request.[environment][shop|data]` has different function arguments, specifically designed to comfortably work with SFCC OCAPI, and its arguments like `environment`, `site_id`, `api_realm`, `api_version`, and `path` are then concanated into a fully qualitying OCAPI base-url like `https://DOMAIN/s/SITE_ID/dw/API_REALM/API_VERSION/PATH`. - ([See this code](https://github.com/aaalglatt/sfcc-ocapi-request/blob/main/api.js#L76) and [refer to this helper](https://github.com/aaalglatt/sfcc-ocapi-request/blob/main/helper.js#L11) for further implementation details.)
@@ -136,48 +136,18 @@ After the credentials setup, described above, the `ACCESS_KEY` namespace could l
 ```json
 {
 	"sandbox": {
-		"apiclient": {
-			"username": "abcdefghijklmnopqrstuvwxyz0987654321",
-			"password": "ClieNtPa$Sword",
-			"agent": "OCAPI Test Client",
-			"origin": "https://whitelisted.domain-origin.net"
-		}
+		"apiclient": {"username": String, "password": String, "agent": String, "origin": String}
 	},
 	"development": {
-		"apiclient": {
-			"username": "abcdefghijklmnopqrstuvwxyz0987654321",
-			"password": "ClieNtPa$Sword",
-			"agent": "OCAPI Test Client",
-			"origin": "https://whitelisted.domain-origin.net"
-		}
+		"apiclient": {"username": String, "password": String, "agent": String, "origin": String}
 	},
 	"staging": {
-		"apiclient": {
-			"username": "abcdefghijklmnopqrstuvwxyz0987654321",
-			"password": "ClieNtPa$Sword",
-			"agent": "OCAPI Test Client",
-			"origin": "https://whitelisted.domain-origin.net"
-		},
-		"bmuser": {
-			"username": "user.name@company.at",
-			"password": "Pa$Sword",
-			"agent": undefined,
-			"origin": undefined
-		}
+		"apiclient": {"username": String, "password": String, "agent": String, "origin": String},
+		"bmuser": {"username": String, "password": String, "agent": undefined, "origin": undefined}
 	},
 	"production": {
-		"apiclient": {
-			"username": "abcdefghijklmnopqrstuvwxyz0987654321",
-			"password": "ClieNtPa$Sword",
-			"agent": "OCAPI Test Client",
-			"origin": "https://whitelisted.domain-origin.net"
-		},
-		"bmuser": {
-			"username": "user.name@company.at",
-			"password": "an0THErP@$Sword",
-			"agent": undefined,
-			"origin": undefined
-		}
+		"apiclient": {"username": String, "password": String, "agent": String, "origin": String},
+		"bmuser": {"username": String, "password": String, "agent": undefined, "origin": undefined}
 	}
 }
 ```
