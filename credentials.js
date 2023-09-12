@@ -1,5 +1,6 @@
 let credentials = module.exports = {
     ACCESS_KEYS: {},
+    ENVIRONMENT_DOMAINS: {},
     SUPPORTED_ENVIRONTMENTS: [
         "sandbox",
         "development",
@@ -40,6 +41,14 @@ credentials.removeSupportedEnvironment = function(identifier) {
             credentials.SUPPORTED_ENVIRONTMENTS.splice(index, 1)
         }
     }
+}
+
+credentials.addEnvironmentDomain = function(url, environment) {
+    if(!credentials.isSupportedEnvironment(environment)) {
+        throw new TypeError(`Base URL refers to an unsupported environment ${JSON.stringify(environment)}! Currently supported environments are ${JSON.stringify(this.SUPPORTED_ENVIRONTMENTS)}. Use the 'addSupportedEnvironment(environment)' method to add supported environments.`)
+    }
+    const supported_environment = credentials.getSupportedEnvironment(environment) // normalize argument wording and writing style
+    credentials.ENVIRONMENT_DOMAINS[supported_environment] = url
 }
 
 credentials.addAccessKey = credentials.add = function(username, password, aliases, environments, agent, origin) {

@@ -11,7 +11,7 @@ Run `npm i sfcc-ocapi-request` to install this NPM package.
 ```js
 const {request, pageloop, credentials} = require("sfcc-ocapi-request")
 const {fetch} = request
-const {ACCESS_KEYS, addAccessKey, SUPPORTED_ENVIRONTMENTS, isSupportedEnvironment, getSupportedEnvironment, addSupportedEnvironment, removeSupportedEnvironment} = credentials
+const {ACCESS_KEYS, addAccessKey, SUPPORTED_ENVIRONTMENTS, isSupportedEnvironment, getSupportedEnvironment, addSupportedEnvironment, removeSupportedEnvironment, ENVIRONMENT_DOMAINS, addEnvironmentDomain} = credentials
 ```
 
 The `request` object contains functions to make HTTP and SFCC OCAPI calls. - For example, `request.fetch()` is basically just a wrapper around [`needle`](https://www.npmjs.com/package/needle) and can be used for generic REST fetches. On the other hand, you can use `request[ENVIRONMENT].data()` and `request[ENVIRONMENT].shop()` to call DATA or SHOP Commerce APIs. - (You need to replace the `ENVIRONMENT` placeholder by a string like `"staging"`.) - For example: `request.development.data()` or `request.production.shop()`.

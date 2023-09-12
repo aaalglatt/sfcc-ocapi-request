@@ -1,3 +1,4 @@
+const {ENVIRONMENT_DOMAINS} = require("./credentials")
 const {join} = require("path")
 const helper = module.exports = {}
 
@@ -8,13 +9,7 @@ helper.protocol = function(value) {
 
 
 helper.api_base = function(environment, protocol) {
-    return {
-        development: "dev.kneipp.com",
-        staging: "stg.kneipp.com",
-        production: "kneipp.com"
-    }
-    [environment || "staging"]
-    .replace(/^(\w+\:\/+)?/i, helper.protocol(protocol))
+    return ENVIRONMENT_DOMAINS[environment || "staging"].replace(/^(\w+\:\/+)?/i, helper.protocol(protocol))
 }
 
 
