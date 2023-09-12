@@ -121,14 +121,13 @@ These URLs are required for OCAPI requests. The reason is that the `request[envi
 
 ```js
 addEnvironmentDomain("dev.kneipp.de", "development") // If I would add this domain for "staging" environment
-const response = await request[environment].shop("POST", "/order_search", "kneippDE", ...) // and run this OCAPI query
+const response = await request.development.shop("POST", "/order_search", "kneippDE", ...) // and run this OCAPI query
 // then the request url would actually look somehing like this: https://dev.kneipp.de/s/kneippDE/dw/shop/v23_1/order_search
 // See how we requested the path "/order_search" but received the entire base-url automatically? :)
 // Btw, you can inspect `ENVIRONMENT_DOMAINS` to see all domains that you have registered through `addEnvironmentDomain(env, url)`.
 ```
 
-The variables `SITE_ID`, `CUSTOMER_LIST` and `DEBUG` are just custom properties that I've added to use inside of the `./example/` project files.
-
+The variables `SITE_ID`, `CUSTOMER_LIST` and `DEBUG` inside the config file above, are just custom properties that I've added to use inside of the `./example/` project files.
 The `ENVIRONMENT` variable is used to structure the Salesforce credentials.
 
 After the credentials setup, described above, the `ACCESS_KEY` namespace could look something like this:
@@ -184,7 +183,7 @@ The request object also contains shortcut functions tailored specifically to mak
 Basically, there is a wrapper around the `request.fetch()` method for every environment defined in `credentials.SUPPORTED_ENVIRONMENTS` and for every OCAPI realm (data, shop). This is done for  convenience. For example, you can call `request.staging.data()` or `request.production.shop()`, in which case you no longer need to pass the environment to the function arguments anymore. You get additional arguments instead, like `site_id`, which are used to automatically compile the correct OCAPI url, like `https://yourdomain.net/s/yourSiteID/dw/shop/v21_6/orders/yourOrderNumber`.  [(You can find the implementation details here.)](https://github.com/geekhunger/sfcc-ocapi-request/blob/main/api.js#L70)
 
 ```js
-return request[environment].data( // ocapi request example taken from `./example/inventory.js`
+const response = request[environment].data( // ocapi request example taken from `./example/inventory.js`
 	"GET", // request method
 	`/inventory_lists/kneippDE/product_inventory_records/918587`, // api endpoint path
 	undefined, // site id (e.g. "kneippDE") or organization scope (denoted with "-" or undefined)
