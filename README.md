@@ -249,7 +249,7 @@ const response = await request.staging.data( // example taken from `./example/cu
 )
 ```
 
-After the Promise resolve, you can do with the response whatever you want. But most probably, the customer list will contain more than 10 entries and the response will look something like this:
+Once the Promise resolves, you can do with the response whatever you want. But most probably, the customer list will contain more than 10 entries and the response will look something like this:
 
 ```js
 {
