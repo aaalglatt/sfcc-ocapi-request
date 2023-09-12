@@ -154,18 +154,48 @@ After the credentials setup, described above, the `ACCESS_KEY` namespace could l
 ```json
 {
 	"sandbox": {
-		"apiclient": {"username": [String], "password": [String], "agent": [String], "origin": [String]}
+		"apiclient": {
+			"username": [String],
+			"password": [String],
+			"agent": [String],
+			"origin": [String]
+		}
 	},
 	"development": {
-		"apiclient": {"username": [String], "password": [String], "agent": [String], "origin": [String]}
+		"apiclient": {
+			"username": [String],
+			"password": [String],
+			"agent": [String],
+			"origin": [String]
+		}
 	},
 	"staging": {
-		"apiclient": {"username": [String], "password": [String], "agent": [String], "origin": [String]},
-		"bmuser": {"username": [String], "password": [String], "agent": undefined, "origin": undefined}
+		"apiclient": {
+			"username": [String],
+			"password": [String],
+			"agent": [String],
+			"origin": [String]
+		},
+		"bmuser": {
+			"username": [String],
+			"password": [String],
+			"agent": undefined,
+			"origin": undefined
+		}
 	},
 	"production": {
-		"apiclient": {"username": [String], "password": [String], "agent": [String], "origin": [String]},
-		"bmuser": {"username": [String], "password": [String], "agent": undefined, "origin": undefined}
+		"apiclient": {
+			"username": [String],
+			"password": [String],
+			"agent": [String],
+			"origin": [String]
+		},
+		"bmuser": {
+			"username": [String],
+			"password": [String],
+			"agent": undefined,
+			"origin": undefined
+		}
 	}
 }
 ```
