@@ -227,7 +227,7 @@ return request[environment].data( // ocapi request example taken from `./example
 
 ## Paginated OCAPI Requests
 
-The reason I have build this iterator utility is that Salesfoce doesn't have consisten response objects across the `data` and `shop` realms. Some responses contain a `next` *string* with a query url, some responses contain a `next` *object* with indecies for subsequest requests and some responses do not contain a `next` property at all. To lower the barier for working with paginated repsonses, I've introduced this function call.
+The reason I have build this iterator utility is that Salesfoce doesn't have consistent response objects across the `data` and `shop` realms. Some responses contain a `next` *string* with a query url, some responses contain a `next` *object* with indecies for subsequest requests and some responses do not contain a `next` property at all. - Thus, I've developed this utility, to lower the barier for working with paginated repsonses and to unify the syntax.
 
 For example, you run a normal OCAPI query request like so:
 
