@@ -70,10 +70,10 @@ module.exports = {
 for(const supported_environment of SUPPORTED_ENVIRONTMENTS) { // generate hierarchy of shortcut request methods
     module.exports[supported_environment] = {}
     for(const api_realm of ["data", "shop"]) {
-        module.exports[supported_environment][api_realm] = function(method, url, site_id, api_version, payload, query, headers, attempts) { // wrapped request call with improved list of arguments for OCAPI usage
+        module.exports[supported_environment][api_realm] = function(method, path, site_id, api_version, payload, query, headers, attempts) { // wrapped request call with improved list of arguments for OCAPI usage
             return module.exports.fetch(
                 method,
-                api_url(supported_environment, site_id, api_realm, api_version, url),
+                api_url(supported_environment, site_id, api_realm, api_version, path),
                 payload,
                 query,
                 headers,
