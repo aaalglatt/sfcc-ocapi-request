@@ -49,6 +49,11 @@ module.exports = {
 	ACCESS_KEYS
 }
 
+// Domains of your Salesforce Commerce instances
+addEnvironmentDomain("dev.domain.net", "development")
+addEnvironmentDomain("stg.domain.net", "staging")
+addEnvironmentDomain("domain.net", "production")
+
 credentials.addAccessKey( // API Client (same on for all environments)
 	"abcdefghijklmnopqrstuvwxyz0987654321", // username
 	"ClieNtPa$Sword", // password
@@ -92,11 +97,29 @@ The *API client* is a requirement and it *must* have at least one alias, named `
 
 The aliases argument can be a string or an array of strings. Aliases are used to access credentials within an environment by these custom names, for example `ACCESS_KEYS.production.shop_manager`. You can also have more than one alias referencing the exact same access key definition.
 
-The variables `SITE_ID`, `CUSTOMER_LIST` and `DEBUG` which are custom properties that are used inside of the `./example/` project files.
+The configuration also shows how I added three domains for my Salesforce Commerce environments (development, staging and production).
+
+```js
+addEnvironmentDomain("dev.domain.net", "development")
+addEnvironmentDomain("stg.domain.net", "staging")
+addEnvironmentDomain("domain.net", "production")
+```
+
+These URLs are required for OCAPI requests. The reason is that the `request[environment][shop|data](...arguments)` functions are basically just convenience wrappers around `request.fetch()`. - `request.fetch` can work with URLs just fine, but `request.[environment][shop|data]` has different function arguments, specifically designed to comfortably work with SFCC OCAPI, and its arguments like `environment`, `site_id`, `api_realm`, `api_version`, and `path` are then concanated into a fully qualitying OCAPI base-url like `https://DOMAIN/s/SITE_ID/dw/API_REALM/API_VERSION/PATH`. - ([See this code](https://github.com/aaalglatt/sfcc-ocapi-request/blob/main/api.js#L76) and [refer to this helper](https://github.com/aaalglatt/sfcc-ocapi-request/blob/main/helper.js#L11) for further implementation details.)
+
+```js
+addEnvironmentDomain("dev.kneipp.de", "development") // If I would add this domain for "staging" environment
+const response = await request[environment].shop("POST", "/order_search", "kneippDE", ...) // and run this OCAPI query
+// then the request url would actually look somehing like this: https://dev.kneipp.de/s/kneippDE/dw/shop/v23_1/order_search
+// See how we requested the path "/order_search" but received the entire base-url automatically? :)
+// Btw, you can inspect `ENVIRONMENT_DOMAINS` to see all domains that you have registered through `addEnvironmentDomain(env, url)`.
+```
+
+The variables `SITE_ID`, `CUSTOMER_LIST` and `DEBUG` are just custom properties that I've added to use inside of the `./example/` project files.
 
 The `ENVIRONMENT` variable is used to structure the Salesforce credentials.
 
-After the credentials setup, shown above, the `ACCESS_KEY` namespace could look something like this:
+After the credentials setup, described above, the `ACCESS_KEY` namespace could look something like this:
 
 ```json
 {
@@ -183,7 +206,7 @@ return request[environment].data( // ocapi request example taken from `./example
 	"GET", // request method
 	`/inventory_lists/${inventory_id}/product_inventory_records/${product_id}`, // api endpoint path
 	undefined, // site id (e.g. "kneippDE") or organization scope (denoted with "-" or undefined)
-	undefined, // OCAPI version (e.g. "v23_1")
+	undefined, // OCAPI version (default is "v23_1")
 	undefined, // request body payload
 	undefined, // request query parameters
 	undefined // request headers
