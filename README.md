@@ -234,7 +234,7 @@ For example, you run a normal OCAPI query request like so:
 ```js
 const response = await request.staging.data( // example taken from `./example/customers.js`
 	"POST", // request method
-	`/customer_lists/${list_id}/customer_search`, // ocapi request path/endpoint
+	`/customer_lists/kneippDE/customer_search`, // ocapi request path/endpoint
 	"-", // /customer_lists are accessible on the organization scope, not through a site id
 	undefined, // ocapi version (will fallback onto "v23_1")
 	{ // body payload
