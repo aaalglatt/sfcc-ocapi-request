@@ -183,7 +183,7 @@ The request object also contains shortcut functions tailored specifically to mak
 Basically, there is a wrapper around the `request.fetch()` method for every environment defined in `credentials.SUPPORTED_ENVIRONMENTS` and for every OCAPI realm (data, shop). This is done for  convenience. For example, you can call `request.staging.data()` or `request.production.shop()`, in which case you no longer need to pass the environment to the function arguments anymore. You get additional arguments instead, like `site_id`, which are used to automatically compile the correct OCAPI url, like `https://yourdomain.net/s/yourSiteID/dw/shop/v21_6/orders/yourOrderNumber`.  [(You can find the implementation details here.)](https://github.com/geekhunger/sfcc-ocapi-request/blob/main/api.js#L70)
 
 ```js
-const response = request[environment].data( // ocapi request example taken from `./example/inventory.js`
+const response = request.production.data( // ocapi request example taken from `./example/inventory.js`
 	"GET", // request method
 	`/inventory_lists/kneippDE/product_inventory_records/918587`, // api endpoint path
 	undefined, // site id (e.g. "kneippDE") or organization scope (denoted with "-" or undefined)
@@ -201,7 +201,7 @@ The reason I have build this iterator utility is that Salesfoce doesn't have con
 For example, you run a normal OCAPI query request like so:
 
 ```js
-const response = await request.staging.data( // example taken from `./example/customers.js`
+const response = await request.production.data( // example taken from `./example/customers.js`
 	"POST", // request method
 	`/customer_lists/kneippDE/customer_search`, // ocapi request path/endpoint
 	"-", // /customer_lists are accessible on the organization scope, not through a site id
