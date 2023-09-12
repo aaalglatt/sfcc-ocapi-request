@@ -3,6 +3,13 @@
 	"version": "1.3.0",
 	"description": "Request client for Salesforce OCAPI (Open Commerce Application Programming Interface)",
 	"main": "public.js",
+	"repository": {
+        "type": "git",
+        "url": "git+https://github.com/aaalglatt/sfcc-ocapi-request.git"
+    },
+    "bugs": {
+        "url": "https://github.com/aaalglatt/sfcc-ocapi-request/issues"
+    },
 	"scripts": {
 	},
 	"keywords": [
