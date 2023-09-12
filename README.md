@@ -186,7 +186,7 @@ Basically, there is a wrapper around the `request.fetch()` method for every envi
 ```js
 return request[environment].data( // ocapi request example taken from `./example/inventory.js`
 	"GET", // request method
-	`/inventory_lists/${inventory_id}/product_inventory_records/${product_id}`, // api endpoint path
+	`/inventory_lists/kneippDE/product_inventory_records/918587`, // api endpoint path
 	undefined, // site id (e.g. "kneippDE") or organization scope (denoted with "-" or undefined)
 	undefined, // OCAPI version (default is "v23_1")
 	undefined, // request body payload
