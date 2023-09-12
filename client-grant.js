@@ -17,9 +17,7 @@ module.exports = async function api_client_grant(environment) {
                 "Authorization": "Basic " + new Buffer.from(client_id + ":" + client_password).toString("Base64"),
                 "Content-Type": "application/x-www-form-urlencoded"
             },
-            environment,
-            client_agent,
-            client_origin
+            environment
         )
 
         if(typeof response !== "object" || response === null || typeof response.access_token !== "string"){
