@@ -1,6 +1,6 @@
 # Salesforce OCAPI request client
 
-> I'm already working on the README...
+> I'm already fixing bugs and working on the README...
 
 ## Installation
 
@@ -151,9 +151,48 @@ After the credentials setup, shown above, the `ACCESS_KEY` namespace could look 
 
 `credentials.SUPPORTED_ENVIRONMENTS` is a list of Salesforce Commerce environments that your company has. Typically, you will have `"development"`, `"staging"`, `"production"` and maybe a couple of sandboxes, like `"sandbox-008"`. If `SUPPORTED_ENVIRONMENTS` is missing a (supported) identifier, you can use the fallowing call to register this new environment, e.g. `credentials.addSupportedEnvironment("sandbox-008")`.
 
-## API request
+## HTTP REST Requests
 
-description
+The request object contains a generic method for making HTTP calls: `request.fetch(method, url, payload, query, headers, environment, attempts = 3)`
+
+This is basically a wrapper around `needle`. It always returns a Promise that is resolved on HTTP statuses between 200 and 299 - it rejects others. The call compiles and parses JSON requests and responses automatically (with proper headers and payload), unless you add custom `Content-Type` or/and `Accept` headers. [(You can find the source here.)](https://github.com/aaalglatt/sfcc-ocapi-request/blob/main/rest.js#L34)
+
+```js
+let response = await request( // http request example taken from `./client-grant.js`
+	"POST", // request method
+	"https://account.demandware.com/dwsso/oauth2/access_token", // request url
+	"grant_type=client_credentials", // request body payload (url-encoded)
+	undefined, // request query parameters
+	{ // request headers
+		"Content-Type": "application/x-www-form-urlencoded",
+		"x-dw-client-id": "TestClientID",
+		"Authorization": "Basic " + new Buffer.from("User:Password").toString("Base64")
+	},
+	"production" // environment (used to fetch "apiclient" and "bmuser" credentials from ACCESS_KEYS for the correct SFCC environment)
+)
+```
+
+## OCAPI Requests
+
+The request object also contains shortcut functions tailored specifically to make HTTP calls to the Salesforce Open Commerce Application Programming Interface (OCAPI): `request[environment][data|shop](method, url, site_id, api_version, payload, query, headers, attempts = 3)`
+
+Basically, there is a wrapper around the `request.fetch()` method for every environment defined in `credentials.SUPPORTED_ENVIRONMENTS` and for every OCAPI realm (data, shop). This is done for  convenience. For example, you can call `request.staging.data()` or `request.production.shop()`, in which case you no longer need to pass the environment to the function arguments anymore. You get additional arguments instead, like `site_id`, which are used to automatically compile the correct OCAPI url, like `https://yourdomain.net/s/yourSiteID/dw/shop/v21_6/orders/yourOrderNumber`.  [(You can find the implementation details here.)](https://github.com/aaalglatt/sfcc-ocapi-request/blob/main/api.js#L70)
+
+```js
+return request[environment].data( // ocapi request example taken from `./example/inventory.js`
+	"GET", // request method
+	`/inventory_lists/${inventory_id}/product_inventory_records/${product_id}`, // api endpoint path
+	undefined, // site id (e.g. "kneippDE") or organization scope (denoted with "-" or undefined)
+	undefined, // OCAPI version (e.g. "v23_1")
+	undefined, // request body payload
+	undefined, // request query parameters
+	undefined // request headers
+)
+```
+
+## Paginated OCAPI Requests
+
+tbd
 
 # ISC License
 
