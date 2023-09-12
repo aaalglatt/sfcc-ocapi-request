@@ -250,7 +250,7 @@ Once the Promise resolves, you can do with the response whatever you want. But m
 Do you see the total count of `288674` customer entries within the response? This means there are 28.000 more pages to fetch (with 10 customers per page). - At this point you could use the `response.next` property to build another `request.staging.data()` request and fetch page 2, then page 3 and so on. - But, you can also make things much easier by using the `pageloop()` utility like so:
 
 ```js
-const query = request.staging.data("POST", "/customer_lists/kneippDE/customer_search", "-", undefined, {
+const query = request.production.data("POST", "/customer_lists/kneippDE/customer_search", "-", undefined, {
 	query: {match_all_query: {}},
 	select: "(**)",
 	expand: [],
