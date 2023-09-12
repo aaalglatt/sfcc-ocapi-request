@@ -8,7 +8,10 @@ module.exports = {
     ACCESS_KEYS
 }
 
-addEnvironmentDomain("web.site.at", "production")
+// Domains of your Salesforce Commerce environments/instances
+addEnvironmentDomain("dev.domain.net", "development")
+addEnvironmentDomain("stg.domain.net", "staging")
+addEnvironmentDomain("domain.net", "production")
 
 addAccessKey( // API Client (same on for all environments)
     "abcdefghijklmnopqrstuvwxyz0987654321", // username
@@ -16,7 +19,7 @@ addAccessKey( // API Client (same on for all environments)
     "apiclient", // aliases or tags to use as shortcut referecne when fetching this access key from `ACCESS_KEYS[environment][alias]`
     null, // make credentials available for all supported environments
     "OCAPI Test Client", // request agent name
-    "https://web.site.at" // request agent origin url
+    "https://domain.net" // request agent origin url
 )
 
 addAccessKey( // Business Manager User ('staging' environment)
