@@ -45,6 +45,10 @@ The `credentials` object contains some helpers for managing the Salesfoce Commer
 
 This package supports the simple and the advanced authentication methods. - The simple one uses API client credentials only (like its ID and password) to authorize your request to Salesforce Commerce. The downside of this authorization method is that it is only permitted to make requests to the `shop` OCAPIs. - The advanced authentication method on the other hand, uses a combination of Business Manager credentials, plus the API client. The advanced authorization can access both API realms (`data` and `shop`) at the same time but you will need to have both, a BM User + an API Client.
 
+![](./img/account-manager-apiclient.jpg)
+![](./img/account-manager-bmuser.jpg)
+![](./img/business-manager-access-keys.jpg)
+
 `credentials.ACCESS_KEYS` is a structured object which holds access keys to your Salesforce Commerce Cloud and its APIs. Access Keys are things like a Business Manager Users or an API Client. Typically, you will have at least one API Client and at least one Business Manager User. - The Salesforce Account Manager will allow you to can create an API client and a Business Manager user.
 
 I like to keep my Salesforce connection credentials and miscellaneous API settings inside of a separate file, for example `./sfcc-ocapi-settings.js`
@@ -105,6 +109,21 @@ The *Business Manager user* is also a requirement and must be aliased with `"bmu
 
 The *API client* is a requirement and it *must* have at least one alias, named `"apiclient"`. You may have one API client per Salesforce Commerce environment, or you may also have a single API Client for all of your Salesforce Commerce environments. It's up to you.
 
+Note, how the API client access key had two more arguments (agent name and request origin). These values are only required for the 'apiclient' type of credentials because these values need to be used during request authentication for the request headers. This is a requirement of Salesforce. Also note that the agent url (last argument) needs to be whitelisted inside the Business Manager OCAPI settings, where you define client permissions.
+
+![](./img/whitelisted-origins.jpg)
+
+```js
+credentials.addAccessKey( // API Client (same on for all environments)
+	"XXXXXXXXXXXXXXX", // username
+	"XXXXXXXXXXXXXXX", // password
+	"apiclient", // aliases or tags to use as shortcut referecne when fetching this access key from `ACCESS_KEYS[environment][alias]`
+	null, // make credentials available for all supported environments
+	"Kneipp Microservices Client", // request agent name (used for the 'User-Agent' header)
+	"https://microservices.kneipp.de" // request agent origin url (used for the 'Origin' header)
+)
+```
+
 (I personally do not use aliases for any specific tasks, but they were initially planned to be used to reference credentials by a custom name, like `ACCESS_KEYS.staging.product_manager_bmuser`. This way I could perform certain OCAPI tasks with one user and others with another user. But this functionality has never been thought through or used. Only `"apiclient"` and `"bmuser"` are used inside of `client-grant.js` and `user-grant.js` for request authorization, which is the reason that you need at least one API client and at least one Business Manager user with the mentioned aliases.)
 
 The aliases argument can be a string or an array of strings. Aliases are used to access credentials within an environment by these custom names, for example `ACCESS_KEYS.production.shop_manager`. You can also have more than one alias referencing the exact same access key definition.
@@ -132,21 +151,21 @@ The `ENVIRONMENT` variable is used to structure the Salesforce credentials.
 
 After the credentials setup, described above, the `ACCESS_KEY` namespace could look something like this:
 
-```txt
+```json
 {
 	"sandbox": {
-		"apiclient": {"username": String, "password": String, "agent": String, "origin": String}
+		"apiclient": {"username": [String], "password": [String], "agent": [String], "origin": [String]}
 	},
 	"development": {
-		"apiclient": {"username": String, "password": String, "agent": String, "origin": String}
+		"apiclient": {"username": [String], "password": [String], "agent": [String], "origin": [String]}
 	},
 	"staging": {
-		"apiclient": {"username": String, "password": String, "agent": String, "origin": String},
-		"bmuser": {"username": String, "password": String, "agent": undefined, "origin": undefined}
+		"apiclient": {"username": [String], "password": [String], "agent": [String], "origin": [String]},
+		"bmuser": {"username": [String], "password": [String], "agent": undefined, "origin": undefined}
 	},
 	"production": {
-		"apiclient": {"username": String, "password": String, "agent": String, "origin": String},
-		"bmuser": {"username": String, "password": String, "agent": undefined, "origin": undefined}
+		"apiclient": {"username": [String], "password": [String], "agent": [String], "origin": [String]},
+		"bmuser": {"username": [String], "password": [String], "agent": undefined, "origin": undefined}
 	}
 }
 ```
