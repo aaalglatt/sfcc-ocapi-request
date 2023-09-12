@@ -227,7 +227,76 @@ return request[environment].data( // ocapi request example taken from `./example
 
 ## Paginated OCAPI Requests
 
-tbd
+The reason I have build this iterator utility is that Salesfoce doesn't have consisten response objects across the `data` and `shop` realms. Some responses contain a `next` *string* with a query url, some responses contain a `next` *object* with indecies for subsequest requests and some responses do not contain a `next` property at all. To lower the barier for working with paginated repsonses, I've introduced this function call.
+
+For example, you run a normal OCAPI query request like so:
+
+```js
+const response = await request.staging.data( // example taken from `./example/customers.js`
+	"POST", // request method
+	`/customer_lists/${list_id}/customer_search`, // ocapi request path/endpoint
+	"-", // /customer_lists are accessible on the organization scope, not through a site id
+	undefined, // ocapi version (will fallback onto "v23_1")
+	{ // body payload
+		query: {
+			match_all_query: {}
+		},
+		select: "(**)",
+		expand: [],
+		count: 10,
+		start: 0
+	}
+)
+```
+
+After the Promise resolve, you can do with the response whatever you want. But most probably, the customer list will contain more than 10 entries and the response will look something like this:
+
+```js
+{
+	_v: '23.1',
+	_type: 'customer_search_result',
+	count: 10,
+	hits: [
+		{ _type: 'customer_search_hit', data: [Object], relevance: 1 },
+		{ _type: 'customer_search_hit', data: [Object], relevance: 1 },
+		{ _type: 'customer_search_hit', data: [Object], relevance: 1 },
+		...
+	],
+	next: {
+		_type: 'result_page',
+		count: 10,
+		start: 10
+	},
+	query: {
+		match_all_query: {
+			_type: 'match_all_query'
+		}
+	},
+	select: '(**)',
+	start: 0,
+	total: 288674
+}
+```
+
+Do you see the total count of `288674` customer entrie within the first response? This means there are 28.000 more pages to fetch (with 10 entries per page). - At this point you could use the `response.next` property to build another `request.staging.data()` request and fetch page 2, then page 3 and so on.
+
+But, you can also make things much easier by using the `pageloop()` utility like so:
+
+```js
+const query = request.staging.data("POST", "/customer_lists/kneippDE/customer_search", "-", undefined, {
+	query: {match_all_query: {}},
+	select: "(**)",
+	expand: [],
+	count: 10,
+	start: 0
+})
+
+for await(const response of pageloop(query)) {
+	for(const customer of response.hits) {
+		console.log(customer)
+	}
+}
+```
 
 # ISC License
 
