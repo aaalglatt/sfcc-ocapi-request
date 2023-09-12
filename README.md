@@ -1,6 +1,8 @@
-# Salesforce OCAPI request client
+# Salesforce OCAPI Request Client
 
 > I'm already fixing bugs and working on the README...
+
+For deeper understanding [inspect the source code at GitHub](https://github.com/aaalglatt/sfcc-ocapi-request) and [look through the examples](https://github.com/aaalglatt/sfcc-ocapi-request/tree/main/example).
 
 ## Installation
 
@@ -11,10 +13,20 @@ Run `npm i sfcc-ocapi-request` to install this NPM package.
 ```js
 const {request, pageloop, credentials} = require("sfcc-ocapi-request")
 const {fetch} = request
-const {ACCESS_KEYS, addAccessKey, SUPPORTED_ENVIRONTMENTS, isSupportedEnvironment, getSupportedEnvironment, addSupportedEnvironment, removeSupportedEnvironment, ENVIRONMENT_DOMAINS, addEnvironmentDomain} = credentials
+const {
+	ACCESS_KEYS,
+	addAccessKey,
+	SUPPORTED_ENVIRONTMENTS,
+	isSupportedEnvironment,
+	getSupportedEnvironment,
+	addSupportedEnvironment,
+	removeSupportedEnvironment,
+	ENVIRONMENT_DOMAINS,
+	addEnvironmentDomain
+} = credentials
 ```
 
-The `request` object contains functions to make HTTP and SFCC OCAPI calls. - For example, `request.fetch()` is basically just a wrapper around [`needle`](https://www.npmjs.com/package/needle) and can be used for generic REST fetches. On the other hand, you can use `request[ENVIRONMENT].data()` and `request[ENVIRONMENT].shop()` to call DATA or SHOP Commerce APIs. - (You need to replace the `ENVIRONMENT` placeholder by a string like `"staging"`.) - For example: `request.development.data()` or `request.production.shop()`.
+The `request` object contains functions to make HTTP and SFCC OCAPI calls. - For example, `request.fetch()` is basically just a wrapper around [`needle`](https://www.npmjs.com/package/needle) and can be used for generic REST requests. On the other hand, you can use `request[ENVIRONMENT].data()` and `request[ENVIRONMENT].shop()` to call DATA or SHOP Commerce APIs. - (You need to replace the `ENVIRONMENT` placeholder by a string like `"staging"`.) - For example: `request.development.data()` or `request.production.shop()`.
 
 The `pageloop()` utility returns a generator function which can be used with `for`-loops, for example:
 
@@ -26,12 +38,12 @@ for await(const response of pageloop(query)) { // note, how `query` is a Promise
 }
 ```
 
-Typically, you will have multiple SFCC environments and a couple different access keys based on those available environments. - The `credentials` object contains some helpers for managing the Salesfoce Commerce environments with their appropriate access keys.
+The `credentials` object contains some helpers for managing the Salesfoce Commerce environments with their appropriate access keys. - Typically, you will have multiple SFCC environments and a couple different access keys based on those available environments.
 
 
 ## Access Keys
 
-This package supports a simple and an advanced authentication method. The simple one uses API client credentials only (like its ID and password). The downside of this authorization method, is that it is permitted to make requests to the `shop` OCAPIs only. The advanced authentication method on the other hand, uses a combination of Business Manager credentials, plus the API client. The advanced authorization can access both API realms (`data` and `shop`) at the same time but you will need to have both, a BM User + an API Client.
+This package supports the simple and the advanced authentication methods. - The simple one uses API client credentials only (like its ID and password) to authorize your request to Salesforce Commerce. The downside of this authorization method is that it is only permitted to make requests to the `shop` OCAPIs. - The advanced authentication method on the other hand, uses a combination of Business Manager credentials, plus the API client. The advanced authorization can access both API realms (`data` and `shop`) at the same time but you will need to have both, a BM User + an API Client.
 
 `credentials.ACCESS_KEYS` is a structured object which holds access keys to your Salesforce Commerce Cloud and its APIs. Access Keys are things like a Business Manager Users or an API Client. Typically, you will have at least one API Client and at least one Business Manager User. - The Salesforce Account Manager will allow you to can create an API client and a Business Manager user.
 
