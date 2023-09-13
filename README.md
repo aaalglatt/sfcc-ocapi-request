@@ -111,8 +111,6 @@ The *API client* is a requirement and it *must* have at least one alias, named `
 
 Note, how the API client access key had two more arguments (agent name and request origin). These values are only required for the 'apiclient' type of credentials because these values need to be used during request authentication for the request headers. This is a requirement of Salesforce. Also note that the agent url (last argument) needs to be whitelisted inside the Business Manager OCAPI settings, where you define client permissions.
 
-![](./img/whitelisted-origins.jpg)
-
 ```js
 credentials.addAccessKey( // API Client (same on for all environments)
 	"XXXXXXXXXXXXXXX", // username
@@ -123,6 +121,8 @@ credentials.addAccessKey( // API Client (same on for all environments)
 	"https://microservices.kneipp.de" // request agent origin url (used for the 'Origin' header)
 )
 ```
+
+![](./img/whitelisted-origins.jpg)
 
 (I personally do not use aliases for any specific tasks, but they were initially planned to be used to reference credentials by a custom name, like `ACCESS_KEYS.staging.product_manager_bmuser`. This way I could perform certain OCAPI tasks with one user and others with another user. But this functionality has never been thought through or used. Only `"apiclient"` and `"bmuser"` are used inside of `client-grant.js` and `user-grant.js` for request authorization, which is the reason that you need at least one API client and at least one Business Manager user with the mentioned aliases.)
 
