@@ -45,11 +45,10 @@ The `credentials` object contains some helpers for managing the Salesfoce Commer
 
 This package supports the simple and the advanced authentication methods. - The simple one uses API client credentials only (like its ID and password) to authorize your request to Salesforce Commerce. The downside of this authorization method is that it is only permitted to make requests to the `shop` OCAPIs. - The advanced authentication method on the other hand, uses a combination of Business Manager credentials, plus the API client. The advanced authorization can access both API realms (`data` and `shop`) at the same time but you will need to have both, a BM User + an API Client.
 
+`credentials.ACCESS_KEYS` is a structured object which holds access keys to your Salesforce Commerce Cloud and its APIs. Access Keys are things like a Business Manager Users or an API Client. Typically, you will have at least one API Client and at least one Business Manager User. - The Salesforce Account Manager will allow you to can create an API client and a Business Manager user.
+
 ![](./img/account-manager-apiclient.jpg)
 ![](./img/account-manager-bmuser.jpg)
-![](./img/business-manager-access-keys.jpg)
-
-`credentials.ACCESS_KEYS` is a structured object which holds access keys to your Salesforce Commerce Cloud and its APIs. Access Keys are things like a Business Manager Users or an API Client. Typically, you will have at least one API Client and at least one Business Manager User. - The Salesforce Account Manager will allow you to can create an API client and a Business Manager user.
 
 I like to keep my Salesforce connection credentials and miscellaneous API settings inside of a separate file, for example `./sfcc-ocapi-settings.js`
 
@@ -105,7 +104,9 @@ credentials.addAccessKey(
 )
 ```
 
-The *Business Manager user* is also a requirement and must be aliased with `"bmuser"`.
+The *Business Manager user* is also a requirement and must be aliased with `"bmuser"`. - If you have a user that can login with username and password, then you can use these credentials for `addAccessKey()`. If you use Single-Sign-On on your Commerce Cloud, then users won't have passwords. In this case you need to create an access key as a password replacement.
+
+![](./img/business-manager-access-keys.jpg)
 
 The *API client* is a requirement and it *must* have at least one alias, named `"apiclient"`. You may have one API client per Salesforce Commerce environment, or you may also have a single API Client for all of your Salesforce Commerce environments. It's up to you.
 
