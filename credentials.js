@@ -83,10 +83,13 @@ credentials.addAccessKey = credentials.add = function(username, password, aliase
                 throw new TypeError(`Access key points to an unsupported environment ${JSON.stringify(environment)}! Currently supported environments are ${JSON.stringify(this.SUPPORTED_ENVIRONTMENTS)}. Use the 'addSupportedEnvironment(environment)' method to add supported environments. Environments are used to group access keys and 'SUPPORTED_ENVIRONTMENTS' is expected to be an array of strings.`)
             }
             const supported_environment = credentials.getSupportedEnvironment(environment) // normalize argument wording and writing style
-            if(!credentials.ACCESS_KEYS[supported_environment]) {
+            if(typeof credentials.ACCESS_KEYS[supported_environment] !== "object" || credentials.ACCESS_KEYS[supported_environment] === null) {
                 credentials.ACCESS_KEYS[supported_environment] = {}
             }
             for(const alias of aliases) {
+                if(typeof credentials.ACCESS_KEYS[supported_environment][alias] === "object" && credentials.ACCESS_KEYS[supported_environment][alias] !== null) {
+                    throw new Error(`There's already another access key defitition for alias ${JSON.stringify(alias)} and environment ${JSON.stringify(supported_environment)}! Aliases should be unique within an environment to avoid overrides.`)
+                }
                 credentials.ACCESS_KEYS[supported_environment][alias] = {username, password, agent, origin}
             }
         }
