@@ -152,7 +152,7 @@ The `ENVIRONMENT` variable is used to structure the Salesforce credentials.
 
 After the credentials setup, described above, the `ACCESS_KEY` namespace could look something like this:
 
-```json
+```js
 {
 	"sandbox": {
 		"apiclient": {
