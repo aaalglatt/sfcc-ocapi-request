@@ -2,7 +2,7 @@
 
 > Want to use Salesforce Open Commerce API but don't know where to start, how to configure or how to use it? Well, [**I (soon) have an entire *online course* about OCAPI!**](#)
 
-For deeper understanding [inspect the source code at GitHub](https://github.com/geekhunger/sfcc-ocapi-request) and [look through the examples](https://github.com/geekhunger/sfcc-ocapi-request/tree/main/example).
+For deeper understanding [inspect the source code at GitHub](https://github.com/geekhunger/sfcc-ocapi-request) and [look through the examples](https://github.com/geekhunger/sfcc-ocapi-request/tree/main/example). Also, [look here if you want to send a bug report.](https://github.com/geekhunger/sfcc-ocapi-request/issues)
 
 ## Installation
 
