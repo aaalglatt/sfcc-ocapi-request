@@ -201,6 +201,8 @@ After the credentials setup, described above, the `ACCESS_KEY` namespace could l
 }
 ```
 
+If you'd want to use these credentials somewhere, you can see how easy it is now to access them with this structured tree of environments and their corresponding aliases. That's also the benefit of working with `addAccessKey()` because you define your credentials only once and if you set multiple environments or aliases, then these credentials get automatically copied into the correct namespaces.
+
 ## Environments
 
 `credentials.SUPPORTED_ENVIRONMENTS` is a list of Salesforce Commerce environments that your company has. Typically, you will have `"development"`, `"staging"`, `"production"` and maybe a couple of sandboxes, like `"sandbox-008"`. If `SUPPORTED_ENVIRONMENTS` is missing a (supported) identifier, you can use the fallowing call to register this new environment, e.g. `credentials.addSupportedEnvironment("sandbox-008")`.
