@@ -1,6 +1,6 @@
 {
 	"name": "sfcc-ocapi-request",
-	"version": "1.5.3",
+	"version": "1.5.4",
 	"description": "Request client for Salesforce OCAPI (Open Commerce Application Programming Interface)",
 	"main": "public.js",
 	"repository": {
