@@ -319,7 +319,7 @@ for await(const response of pageloop(query)) {
 
 # ISC License
 
-Copyright 2023 hallo@geekhunger.de
+Copyright 2023 hello@geekhunger.com
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
 provided that the above copyright notice and this permission notice appear in all copies.
