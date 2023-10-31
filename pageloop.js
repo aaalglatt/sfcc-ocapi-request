@@ -152,10 +152,13 @@ module.exports = async /*generator*/ function*(search_response) { // to be used 
         }
 
         const {curr_count} = getPagination(search_response)
-        console.log(`Fetched ${curr_count} records from page ${++curr_page} of ${num_pages}.`)
-
-        //console.log(search_response)
-        yield search_response
+        curr_page++
+        
+        if(curr_count > 0) {
+            console.log(`Fetched ${curr_count} records from page ${curr_page} of ${num_pages}.`)
+            //console.log(search_response)
+            yield search_response
+        }
     }
 
     console.log(`Finished fetching records from paginated search query.`)
